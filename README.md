@@ -6,8 +6,8 @@ For making observable requests in the browser and in Node.js.
 npm install @transclusion/request --save
 ```
 
-[![build status](https://img.shields.io/travis/transclusion/runtime/master.svg?style=flat-square)](https://travis-ci.org/transclusion/runtime)
-[![npm version](https://img.shields.io/npm/v/@transclusion/runtime.svg?style=flat-square)](https://www.npmjs.com/package/@transclusion/runtime)
+[![build status](https://img.shields.io/travis/transclusion/request/master.svg?style=flat-square)](https://travis-ci.org/transclusion/request)
+[![npm version](https://img.shields.io/npm/v/@transclusion/request.svg?style=flat-square)](https://www.npmjs.com/package/@transclusion/request)
 
 ## Usage
 
