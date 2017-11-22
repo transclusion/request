@@ -2,3 +2,7 @@
 /.editorconfig
 /.travis.yml
 /node_modules
+/src
+/test
+/tsconfig.*
+/tslint.json
