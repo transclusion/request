@@ -1,5 +1,7 @@
 # @transclusion/request
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/transclusion/request.svg)](https://greenkeeper.io/)
+
 For making observable requests in the browser and in Node.js.
 
 ```sh
