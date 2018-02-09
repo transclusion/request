@@ -1,22 +1,38 @@
-import {IHeaders, IOpts, IResponseObserver} from './types'
+import {IHeaders, IOpts, IResponseObserver, Response} from './types'
 
-function createRequestObservable(method: string, url: string, opts: IOpts = {}) {
-  const async = opts.async || true
-
-  let req: any = null
-
+function request(method: string, url: string, opts: IOpts = {}) {
   return {
-    method,
-    url,
     subscribe(observer: IResponseObserver) {
-      const xhr = (req = new XMLHttpRequest())
+      const xhr: XMLHttpRequest = new XMLHttpRequest()
 
       let status = 0
       let headers: IHeaders = {}
       let bytesTotal = -1
       let bytesLoaded = -1
+      let isCompleted = false
 
-      req.onerror = () => {
+      function handleNext (res: Response) {
+        if (!isCompleted) {
+          observer.next(res)
+        }
+      }
+
+      function handleComplete () {
+        if (!isCompleted && observer.complete) {
+          observer.complete()
+          isCompleted = true
+        }
+      }
+
+      function handleError (err: Error) {
+        if (!isCompleted && observer.error) {
+          observer.error(err)
+        }
+
+        handleComplete()
+      }
+
+      xhr.onerror = () => {
         const err: any = new Error('HTTP request failed')
 
         err.response = {
@@ -26,22 +42,14 @@ function createRequestObservable(method: string, url: string, opts: IOpts = {}) 
           text: xhr.responseText
         }
 
-        if (observer.error) {
-          observer.error(err)
-        }
-
-        if (observer.complete) {
-          observer.complete()
-        }
-
-        req = null
+        handleError(err)
       }
 
-      req.onprogress = (evt: ProgressEvent) => {
+      xhr.onprogress = (evt: ProgressEvent) => {
         if (evt.lengthComputable) {
           bytesTotal = evt.total
           bytesLoaded = evt.loaded
-          observer.next({
+          handleNext({
             bytesLoaded,
             bytesTotal,
             headers,
@@ -51,15 +59,17 @@ function createRequestObservable(method: string, url: string, opts: IOpts = {}) 
         }
       }
 
-      req.onreadystatechange = () => {
+      xhr.onreadystatechange = () => {
         switch (xhr.readyState) {
           case 0: // xhr.UNSET:
-            observer.next({readyState: 0})
+            handleNext({readyState: 0})
             break
+
           case 1: // xhr.OPENED:
-            observer.next({readyState: 1})
-            req.send()
+            handleNext({readyState: 1})
+            xhr.send()
             break
+
           case 2: // xhr.HEADERS_RECEIVED:
             status = xhr.status
             headers = xhr
@@ -75,10 +85,11 @@ function createRequestObservable(method: string, url: string, opts: IOpts = {}) 
                 },
                 {} as IHeaders
               )
-            observer.next({readyState: 2, headers, status})
+            handleNext({readyState: 2, headers, status})
             break
+
           case 3: // xhr.LOADING:
-            observer.next({
+            handleNext({
               readyState: 3,
               headers,
               status,
@@ -86,8 +97,9 @@ function createRequestObservable(method: string, url: string, opts: IOpts = {}) 
               bytesLoaded
             })
             break
+
           case 4: // xhr.DONE:
-            observer.next({
+            handleNext({
               readyState: 4,
               headers,
               status,
@@ -95,24 +107,19 @@ function createRequestObservable(method: string, url: string, opts: IOpts = {}) 
               bytesTotal,
               bytesLoaded
             })
-            if (observer.complete) {
-              observer.complete()
-            }
-            req = null
+            handleComplete()
             break
         }
       }
 
-      req.open(method, url, async)
+      xhr.open(method, url, true)
 
       return {
         unsubscribe() {
-          if (observer.complete) {
-            observer.complete()
-          }
-          if (req) {
-            req.abort()
-            req = null
+          handleComplete()
+
+          if (xhr) {
+            xhr.abort()
           }
         }
       }
@@ -121,107 +128,107 @@ function createRequestObservable(method: string, url: string, opts: IOpts = {}) 
 }
 
 function get(url: string, opts: IOpts) {
-  return createRequestObservable('GET', url, opts)
+  return request('GET', url, opts)
 }
 
 function post(url: string, opts: IOpts) {
-  return createRequestObservable('POST', url, opts)
+  return request('POST', url, opts)
 }
 
 function put(url: string, opts: IOpts) {
-  return createRequestObservable('PUT', url, opts)
+  return request('PUT', url, opts)
 }
 
 function head(url: string, opts: IOpts) {
-  return createRequestObservable('HEAD', url, opts)
+  return request('HEAD', url, opts)
 }
 
 function del(url: string, opts: IOpts) {
-  return createRequestObservable('DELETE', url, opts)
+  return request('DELETE', url, opts)
 }
 
 function options(url: string, opts: IOpts) {
-  return createRequestObservable('OPTIONS', url, opts)
+  return request('OPTIONS', url, opts)
 }
 
 function trace(url: string, opts: IOpts) {
-  return createRequestObservable('TRACE', url, opts)
+  return request('TRACE', url, opts)
 }
 
 function copy(url: string, opts: IOpts) {
-  return createRequestObservable('COPY', url, opts)
+  return request('COPY', url, opts)
 }
 
 function lock(url: string, opts: IOpts) {
-  return createRequestObservable('LOCK', url, opts)
+  return request('LOCK', url, opts)
 }
 
 function mkcol(url: string, opts: IOpts) {
-  return createRequestObservable('MKCOL', url, opts)
+  return request('MKCOL', url, opts)
 }
 
 function move(url: string, opts: IOpts) {
-  return createRequestObservable('MOVE', url, opts)
+  return request('MOVE', url, opts)
 }
 
 function purge(url: string, opts: IOpts) {
-  return createRequestObservable('PURGE', url, opts)
+  return request('PURGE', url, opts)
 }
 
 function propfind(url: string, opts: IOpts) {
-  return createRequestObservable('PROPFIND', url, opts)
+  return request('PROPFIND', url, opts)
 }
 
 function proppatch(url: string, opts: IOpts) {
-  return createRequestObservable('PROPPATCH', url, opts)
+  return request('PROPPATCH', url, opts)
 }
 
 function unlock(url: string, opts: IOpts) {
-  return createRequestObservable('UNLOCK', url, opts)
+  return request('UNLOCK', url, opts)
 }
 
 function report(url: string, opts: IOpts) {
-  return createRequestObservable('REPORT', url, opts)
+  return request('REPORT', url, opts)
 }
 
 function mkactivity(url: string, opts: IOpts) {
-  return createRequestObservable('MKACTIVITY', url, opts)
+  return request('MKACTIVITY', url, opts)
 }
 
 function checkout(url: string, opts: IOpts) {
-  return createRequestObservable('CHECKOUT', url, opts)
+  return request('CHECKOUT', url, opts)
 }
 
 function merge(url: string, opts: IOpts) {
-  return createRequestObservable('MERGE', url, opts)
+  return request('MERGE', url, opts)
 }
 
 function mSearch(url: string, opts: IOpts) {
-  return createRequestObservable('M-SEARCH', url, opts)
+  return request('M-SEARCH', url, opts)
 }
 
 function notify(url: string, opts: IOpts) {
-  return createRequestObservable('NOTIFY', url, opts)
+  return request('NOTIFY', url, opts)
 }
 
 function subscribe(url: string, opts: IOpts) {
-  return createRequestObservable('SUBSCRIBE', url, opts)
+  return request('SUBSCRIBE', url, opts)
 }
 
 function unsubscribe(url: string, opts: IOpts) {
-  return createRequestObservable('UNSUBSCRIBE', url, opts)
+  return request('UNSUBSCRIBE', url, opts)
 }
 
 function patch(url: string, opts: IOpts) {
-  return createRequestObservable('PATCH', url, opts)
+  return request('PATCH', url, opts)
 }
 
 function search(url: string, opts: IOpts) {
-  return createRequestObservable('SEARCH', url, opts)
+  return request('SEARCH', url, opts)
 }
 
 function connect(url: string, opts: IOpts) {
-  return createRequestObservable('CONNECT', url, opts)
+  return request('CONNECT', url, opts)
 }
 
 export {

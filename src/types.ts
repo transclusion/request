@@ -1,10 +1,9 @@
-export interface IOpts {
-  method?: string
-  async?: boolean
-}
-
 export interface IHeaders {
   [key: string]: string
+}
+
+export interface IOpts {
+  header?: IHeaders
 }
 
 export type StatusCode = number | null
