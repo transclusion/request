@@ -68,6 +68,11 @@ function request(method: string, url: string, opts: IOpts = {}) {
 
           case 1: // xhr.OPENED:
             handleNext({readyState: 1})
+            if (reqHeaders) {
+              Object.keys(reqHeaders).forEach(key => {
+                xhr.setRequestHeader(key, reqHeaders[key])
+              })
+            }
             xhr.send(opts.body)
             break
 
@@ -114,12 +119,6 @@ function request(method: string, url: string, opts: IOpts = {}) {
       }
 
       xhr.open(method, url, true)
-
-      if (reqHeaders) {
-        Object.keys(reqHeaders).forEach(key => {
-          xhr.setRequestHeader(key, reqHeaders[key])
-        })
-      }
 
       return {
         unsubscribe() {
