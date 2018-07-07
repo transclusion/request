@@ -22,6 +22,14 @@ function parseHeaders (rawHeaders: any) {
   )
 }
 
+interface INodeReqOpts {
+  method: string,
+  host?: string,
+  port?: string,
+  path?: string,
+  headers?: IHeaders
+}
+
 function request(method: string, url: string, opts: IOpts = {}) {
   let req: any = null
   let headers: IHeaders
@@ -31,11 +39,15 @@ function request(method: string, url: string, opts: IOpts = {}) {
       const urlInfo = parseUrl(url)
       const protocol = urlInfo.protocol
       const transport: any = protocol === 'https:' ? https : http
-      const params = {
+      const reqOpts: INodeReqOpts = {
         method,
         host: urlInfo.hostname,
         port: urlInfo.port,
         path: urlInfo.path
+      }
+
+      if (opts.headers) {
+        reqOpts.headers = opts.headers
       }
 
       let text: string = ''
@@ -62,7 +74,7 @@ function request(method: string, url: string, opts: IOpts = {}) {
         }
       }
 
-      req = transport.request(params, (res: any) => {
+      req = transport.request(reqOpts, (res: any) => {
         res.on('data', (buf: Buffer) => {
           headers = headers || parseHeaders(res.headers)
 
@@ -97,6 +109,10 @@ function request(method: string, url: string, opts: IOpts = {}) {
           handleComplete()
         })
       })
+
+      if (opts.body) {
+        req.write(opts.body)
+      }
 
       req.end()
 

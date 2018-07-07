@@ -3,7 +3,8 @@ export interface IHeaders {
 }
 
 export interface IOpts {
-  header?: IHeaders
+  headers?: IHeaders
+  body?: string
 }
 
 export type StatusCode = number | null
