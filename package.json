@@ -1,7 +1,7 @@
 {
   "name": "@transclusion/request",
   "version": "1.0.0-alpha.4",
-  "description": "",
+  "description": "For making observable requests in the browser and in Node.js.",
   "author": "Marius Lundgård <studio@mariuslundgard.com>",
   "license": "MIT",
   "main": "./dist/commonjs/server.js",
