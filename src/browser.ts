@@ -133,107 +133,107 @@ function request(method: string, url: string, opts: IOpts = {}) {
   }
 }
 
-function get(url: string, opts: IOpts) {
+function get(url: string, opts?: IOpts) {
   return request('GET', url, opts)
 }
 
-function post(url: string, opts: IOpts) {
+function post(url: string, opts?: IOpts) {
   return request('POST', url, opts)
 }
 
-function put(url: string, opts: IOpts) {
+function put(url: string, opts?: IOpts) {
   return request('PUT', url, opts)
 }
 
-function head(url: string, opts: IOpts) {
+function head(url: string, opts?: IOpts) {
   return request('HEAD', url, opts)
 }
 
-function del(url: string, opts: IOpts) {
+function del(url: string, opts?: IOpts) {
   return request('DELETE', url, opts)
 }
 
-function options(url: string, opts: IOpts) {
+function options(url: string, opts?: IOpts) {
   return request('OPTIONS', url, opts)
 }
 
-function trace(url: string, opts: IOpts) {
+function trace(url: string, opts?: IOpts) {
   return request('TRACE', url, opts)
 }
 
-function copy(url: string, opts: IOpts) {
+function copy(url: string, opts?: IOpts) {
   return request('COPY', url, opts)
 }
 
-function lock(url: string, opts: IOpts) {
+function lock(url: string, opts?: IOpts) {
   return request('LOCK', url, opts)
 }
 
-function mkcol(url: string, opts: IOpts) {
+function mkcol(url: string, opts?: IOpts) {
   return request('MKCOL', url, opts)
 }
 
-function move(url: string, opts: IOpts) {
+function move(url: string, opts?: IOpts) {
   return request('MOVE', url, opts)
 }
 
-function purge(url: string, opts: IOpts) {
+function purge(url: string, opts?: IOpts) {
   return request('PURGE', url, opts)
 }
 
-function propfind(url: string, opts: IOpts) {
+function propfind(url: string, opts?: IOpts) {
   return request('PROPFIND', url, opts)
 }
 
-function proppatch(url: string, opts: IOpts) {
+function proppatch(url: string, opts?: IOpts) {
   return request('PROPPATCH', url, opts)
 }
 
-function unlock(url: string, opts: IOpts) {
+function unlock(url: string, opts?: IOpts) {
   return request('UNLOCK', url, opts)
 }
 
-function report(url: string, opts: IOpts) {
+function report(url: string, opts?: IOpts) {
   return request('REPORT', url, opts)
 }
 
-function mkactivity(url: string, opts: IOpts) {
+function mkactivity(url: string, opts?: IOpts) {
   return request('MKACTIVITY', url, opts)
 }
 
-function checkout(url: string, opts: IOpts) {
+function checkout(url: string, opts?: IOpts) {
   return request('CHECKOUT', url, opts)
 }
 
-function merge(url: string, opts: IOpts) {
+function merge(url: string, opts?: IOpts) {
   return request('MERGE', url, opts)
 }
 
-function mSearch(url: string, opts: IOpts) {
+function mSearch(url: string, opts?: IOpts) {
   return request('M-SEARCH', url, opts)
 }
 
-function notify(url: string, opts: IOpts) {
+function notify(url: string, opts?: IOpts) {
   return request('NOTIFY', url, opts)
 }
 
-function subscribe(url: string, opts: IOpts) {
+function subscribe(url: string, opts?: IOpts) {
   return request('SUBSCRIBE', url, opts)
 }
 
-function unsubscribe(url: string, opts: IOpts) {
+function unsubscribe(url: string, opts?: IOpts) {
   return request('UNSUBSCRIBE', url, opts)
 }
 
-function patch(url: string, opts: IOpts) {
+function patch(url: string, opts?: IOpts) {
   return request('PATCH', url, opts)
 }
 
-function search(url: string, opts: IOpts) {
+function search(url: string, opts?: IOpts) {
   return request('SEARCH', url, opts)
 }
 
-function connect(url: string, opts: IOpts) {
+function connect(url: string, opts?: IOpts) {
   return request('CONNECT', url, opts)
 }
 
