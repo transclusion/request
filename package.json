@@ -6,7 +6,6 @@
   "license": "MIT",
   "main": "./dist/commonjs/server.js",
   "module": "./dist/module/server.js",
-  "typings": "./dist/module/types.d.ts",
   "browser": {
     "./dist/commonjs/server.js": "./dist/commonjs/browser.js",
     "./dist/module/server.js": "./dist/module/browser.js"
