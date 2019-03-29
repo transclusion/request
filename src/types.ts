@@ -1,39 +1,39 @@
-export interface IHeaders {
+export interface ResponseHeaders {
   [key: string]: string
 }
 
-export interface IOpts {
-  headers?: IHeaders
+export interface RequestOpts {
+  headers?: ResponseHeaders
   body?: string
 }
 
 export type StatusCode = number | null
 
-export interface IResponseUnset {
+export interface ResponseUnset {
   readyState: 0
 }
 
-export interface IResponseOpened {
+export interface ResponseOpened {
   readyState: 1
 }
 
-export interface IResponseHeadersReceived {
+export interface ResponseHeadersReceived {
   readyState: 2
-  headers: IHeaders
+  headers: ResponseHeaders
   status: StatusCode
 }
 
-export interface IResponseLoading {
+export interface ResponseLoading {
   readyState: 3
-  headers: IHeaders
+  headers: ResponseHeaders
   status: StatusCode
   bytesLoaded: number
   bytesTotal: number
 }
 
-export interface IResponseDone {
+export interface ResponseDone {
   readyState: 4
-  headers: IHeaders
+  headers: ResponseHeaders
   status: StatusCode
   text: string
   bytesLoaded: number
@@ -41,13 +41,13 @@ export interface IResponseDone {
 }
 
 export type Response =
-  | IResponseUnset
-  | IResponseOpened
-  | IResponseHeadersReceived
-  | IResponseLoading
-  | IResponseDone
+  | ResponseUnset
+  | ResponseOpened
+  | ResponseHeadersReceived
+  | ResponseLoading
+  | ResponseDone
 
-export interface IResponseObserver {
+export interface ResponseObserver {
   next: (res: Response) => void
   error?: (err: any) => void
   complete?: () => void

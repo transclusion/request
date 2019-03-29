@@ -1,13 +1,15 @@
-import {IHeaders, IOpts, IResponseObserver, Response} from './types'
+import {RequestOpts, Response, ResponseHeaders, ResponseObserver} from './types'
 
-function request(method: string, url: string, opts: IOpts = {}) {
+export {Response, ResponseHeaders}
+
+function request(method: string, url: string, opts: RequestOpts = {}) {
   return {
-    subscribe(observer: IResponseObserver) {
+    subscribe(observer: ResponseObserver) {
       const xhr: XMLHttpRequest = new XMLHttpRequest()
       const reqHeaders = opts.headers
 
       let status = 0
-      let headers: IHeaders = {}
+      let headers: ResponseHeaders = {}
       let bytesTotal = -1
       let bytesLoaded = -1
       let isCompleted = false
@@ -89,7 +91,7 @@ function request(method: string, url: string, opts: IOpts = {}) {
                   headers[parts[0].trim()] = parts[1].trim()
                   return headers
                 },
-                {} as IHeaders
+                {} as ResponseHeaders
               )
             handleNext({readyState: 2, headers, status})
             break
@@ -133,107 +135,107 @@ function request(method: string, url: string, opts: IOpts = {}) {
   }
 }
 
-function get(url: string, opts?: IOpts) {
+function get(url: string, opts?: RequestOpts) {
   return request('GET', url, opts)
 }
 
-function post(url: string, opts?: IOpts) {
+function post(url: string, opts?: RequestOpts) {
   return request('POST', url, opts)
 }
 
-function put(url: string, opts?: IOpts) {
+function put(url: string, opts?: RequestOpts) {
   return request('PUT', url, opts)
 }
 
-function head(url: string, opts?: IOpts) {
+function head(url: string, opts?: RequestOpts) {
   return request('HEAD', url, opts)
 }
 
-function del(url: string, opts?: IOpts) {
+function del(url: string, opts?: RequestOpts) {
   return request('DELETE', url, opts)
 }
 
-function options(url: string, opts?: IOpts) {
+function options(url: string, opts?: RequestOpts) {
   return request('OPTIONS', url, opts)
 }
 
-function trace(url: string, opts?: IOpts) {
+function trace(url: string, opts?: RequestOpts) {
   return request('TRACE', url, opts)
 }
 
-function copy(url: string, opts?: IOpts) {
+function copy(url: string, opts?: RequestOpts) {
   return request('COPY', url, opts)
 }
 
-function lock(url: string, opts?: IOpts) {
+function lock(url: string, opts?: RequestOpts) {
   return request('LOCK', url, opts)
 }
 
-function mkcol(url: string, opts?: IOpts) {
+function mkcol(url: string, opts?: RequestOpts) {
   return request('MKCOL', url, opts)
 }
 
-function move(url: string, opts?: IOpts) {
+function move(url: string, opts?: RequestOpts) {
   return request('MOVE', url, opts)
 }
 
-function purge(url: string, opts?: IOpts) {
+function purge(url: string, opts?: RequestOpts) {
   return request('PURGE', url, opts)
 }
 
-function propfind(url: string, opts?: IOpts) {
+function propfind(url: string, opts?: RequestOpts) {
   return request('PROPFIND', url, opts)
 }
 
-function proppatch(url: string, opts?: IOpts) {
+function proppatch(url: string, opts?: RequestOpts) {
   return request('PROPPATCH', url, opts)
 }
 
-function unlock(url: string, opts?: IOpts) {
+function unlock(url: string, opts?: RequestOpts) {
   return request('UNLOCK', url, opts)
 }
 
-function report(url: string, opts?: IOpts) {
+function report(url: string, opts?: RequestOpts) {
   return request('REPORT', url, opts)
 }
 
-function mkactivity(url: string, opts?: IOpts) {
+function mkactivity(url: string, opts?: RequestOpts) {
   return request('MKACTIVITY', url, opts)
 }
 
-function checkout(url: string, opts?: IOpts) {
+function checkout(url: string, opts?: RequestOpts) {
   return request('CHECKOUT', url, opts)
 }
 
-function merge(url: string, opts?: IOpts) {
+function merge(url: string, opts?: RequestOpts) {
   return request('MERGE', url, opts)
 }
 
-function mSearch(url: string, opts?: IOpts) {
+function mSearch(url: string, opts?: RequestOpts) {
   return request('M-SEARCH', url, opts)
 }
 
-function notify(url: string, opts?: IOpts) {
+function notify(url: string, opts?: RequestOpts) {
   return request('NOTIFY', url, opts)
 }
 
-function subscribe(url: string, opts?: IOpts) {
+function subscribe(url: string, opts?: RequestOpts) {
   return request('SUBSCRIBE', url, opts)
 }
 
-function unsubscribe(url: string, opts?: IOpts) {
+function unsubscribe(url: string, opts?: RequestOpts) {
   return request('UNSUBSCRIBE', url, opts)
 }
 
-function patch(url: string, opts?: IOpts) {
+function patch(url: string, opts?: RequestOpts) {
   return request('PATCH', url, opts)
 }
 
-function search(url: string, opts?: IOpts) {
+function search(url: string, opts?: RequestOpts) {
   return request('SEARCH', url, opts)
 }
 
-function connect(url: string, opts?: IOpts) {
+function connect(url: string, opts?: RequestOpts) {
   return request('CONNECT', url, opts)
 }
 
