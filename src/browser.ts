@@ -12,20 +12,20 @@ function request(method: string, url: string, opts: IOpts = {}) {
       let bytesLoaded = -1
       let isCompleted = false
 
-      function handleNext (res: Response) {
+      function handleNext(res: Response) {
         if (!isCompleted) {
           observer.next(res)
         }
       }
 
-      function handleComplete () {
+      function handleComplete() {
         if (!isCompleted && observer.complete) {
           observer.complete()
           isCompleted = true
         }
       }
 
-      function handleError (err: Error) {
+      function handleError(err: Error) {
         if (!isCompleted && observer.error) {
           observer.error(err)
         }

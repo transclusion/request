@@ -4,7 +4,7 @@ import {parse as parseUrl} from 'url'
 
 import {IHeaders, IOpts, IResponseObserver, Response} from './types'
 
-function parseHeaders (rawHeaders: any) {
+function parseHeaders(rawHeaders: any) {
   return Object.keys(rawHeaders).reduce(
     (headers, key) => {
       const lowerCaseKey = key.toLowerCase()
@@ -23,10 +23,10 @@ function parseHeaders (rawHeaders: any) {
 }
 
 interface INodeReqOpts {
-  method: string,
-  host?: string,
-  port?: string,
-  path?: string,
+  method: string
+  host?: string
+  port?: string
+  path?: string
   headers?: IHeaders
 }
 
@@ -53,13 +53,13 @@ function request(method: string, url: string, opts: IOpts = {}) {
       let text: string = ''
       let isComplete = false
 
-      function handleNext (res: Response) {
+      function handleNext(res: Response) {
         if (!isComplete) {
           observer.next(res)
         }
       }
 
-      function handleError (err: Error) {
+      function handleError(err: Error) {
         if (observer.error) {
           observer.error(err)
         }
@@ -67,7 +67,7 @@ function request(method: string, url: string, opts: IOpts = {}) {
         handleComplete()
       }
 
-      function handleComplete () {
+      function handleComplete() {
         if (observer.complete) {
           observer.complete()
           isComplete = true

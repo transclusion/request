@@ -40,7 +40,12 @@ export interface IResponseDone {
   bytesTotal: number
 }
 
-export type Response = IResponseUnset | IResponseOpened | IResponseHeadersReceived | IResponseLoading | IResponseDone
+export type Response =
+  | IResponseUnset
+  | IResponseOpened
+  | IResponseHeadersReceived
+  | IResponseLoading
+  | IResponseDone
 
 export interface IResponseObserver {
   next: (res: Response) => void
