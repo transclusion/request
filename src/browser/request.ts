@@ -6,7 +6,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
       const xhr: XMLHttpRequest = new XMLHttpRequest()
       const reqHeaders = opts.headers
 
-      let status = 0
+      let status = 200
       let headers: ResponseHeaders = {}
       let bytesTotal = -1
       let bytesLoaded = -1
@@ -86,7 +86,9 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
                 // tslint:disable-next-line no-shadowed-variable
                 (headers, line) => {
                   const parts = line.split(/:/)
-                  headers[parts[0].trim()] = parts[1].trim()
+                  if (parts.length === 2) {
+                    headers[parts[0].trim()] = parts[1].trim()
+                  }
                   return headers
                 },
                 {} as ResponseHeaders
