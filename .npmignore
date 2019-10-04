@@ -1,6 +1,8 @@
 .DS_Store
 /.editorconfig
+/.prettierrc
 /.travis.yml
+/jest.config.js
 /node_modules
 /src
 /test

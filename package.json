@@ -36,8 +36,5 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.6.3",
     "xhr-mock": "^2.5.0"
-  },
-  "jest": {
-    "browser": true
   }
 }
