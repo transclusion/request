@@ -3,7 +3,9 @@ const request = require('../src/server')
 
 describe('request/server', () => {
   it('should send a basic GET request', done => {
-    nock('http://test').get('/').reply(200, 'Hello, world!')
+    nock('http://test')
+      .get('/')
+      .reply(200, 'Hello, world!')
 
     const next = jest.fn()
     const error = jest.fn()
@@ -25,13 +27,15 @@ describe('request/server', () => {
   })
 
   it('should send a POST request with a body', done => {
-    nock('http://test').post('/identity').reply(function (_, requestBody) {
-      return [
-        201,
-        requestBody,
-        { 'content-type': this.req.headers['content-type'] || 'text/plain' }, // optional headers
-      ]
-    })
+    nock('http://test')
+      .post('/identity')
+      .reply(function(_, requestBody) {
+        return [
+          201,
+          requestBody,
+          {'content-type': this.req.headers['content-type'] || 'text/plain'} // optional headers
+        ]
+      })
 
     const next = jest.fn()
     const error = jest.fn()
