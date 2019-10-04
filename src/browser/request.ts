@@ -11,8 +11,6 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
     let bytesLoaded = -1
     let isCompleted = false
 
-    const reqHeaders = opts.headers || {}
-
     function handleNext(res: Response) {
       if (!isCompleted) {
         observer.next(res)
@@ -70,13 +68,18 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
       } else if (readyState === 1) {
         handleNext({readyState})
 
-        Object.keys(reqHeaders).forEach(key => {
-          xhr.setRequestHeader(key, reqHeaders[key])
-        })
+        // Set XHR request headers
+        if (opts.headers) {
+          for (const [key, value] of Object.entries(opts.headers)) {
+            xhr.setRequestHeader(key, value)
+          }
+        }
 
         xhr.send(opts.body)
       } else if (readyState === 2) {
         status = xhr.status
+
+        // Get response headers from XHR
         headers = getHeadersFromXHR(xhr)
 
         handleNext({
