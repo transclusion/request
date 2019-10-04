@@ -12,17 +12,20 @@ npm install @transclusion/request --save
 ## Usage
 
 ```js
-import request from '@transclusion/request'
+import {get} from '@transclusion/request'
 
-const subscription = request.get('https://www.google.com').subscribe({
+// Make a request observable
+const req = get('https://www.google.com')
+
+// The request will be sent whenever it is subscribed to
+const subscription = req.subscribe({
   next(res) {
-    switch (res.readyState) {
-      case 3:
-        console.log(`Loaded: ${res.bytesLoaded / res.bytesTotal * 100}%`)
-        break
-      case 4:
-        console.log(`Text: ${res.text}`)
-        break
+    if (res.readyState === 3) {
+      console.log(`Loaded: ${res.bytesLoaded / res.bytesTotal * 100}%`)
+    }
+
+    if (res.readyState === 4) {
+      console.log(`Text: ${res.text}`)
     }
   },
   error(err) {
