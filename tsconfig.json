@@ -5,5 +5,5 @@
     "sourceMap": true,
     "types": ["node"]
   },
-  "files": ["src/browser.ts", "src/server.ts"]
+  "files": ["src/browser/index.ts", "src/server/index.ts"]
 }
