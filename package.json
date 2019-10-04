@@ -7,8 +7,8 @@
   "main": "./dist/commonjs/server/index.js",
   "module": "./dist/module/server/index.js",
   "browser": {
-    "./dist/commonjs/server.js": "./dist/commonjs/browser/index.js",
-    "./dist/module/server.js": "./dist/module/browser/index.js"
+    "./dist/commonjs/server/index.js": "./dist/commonjs/browser/index.js",
+    "./dist/module/server/index.js": "./dist/module/browser/index.js"
   },
   "scripts": {
     "build": "npm-run-all tsc-*",
