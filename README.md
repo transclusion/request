@@ -3,7 +3,11 @@
 For making observable requests in the browser and in Node.js.
 
 ```sh
-npm install @transclusion/request --save
+# Install with npm
+npm install @transclusion/request
+
+# Install with yarn
+yarn add @transclusion/request
 ```
 
 [![build status](https://img.shields.io/travis/transclusion/request/master.svg?style=flat-square)](https://travis-ci.org/transclusion/request)
