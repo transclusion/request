@@ -20,8 +20,9 @@
     "clean": "rimraf dist",
     "lint": "eslint . --ext .js,.ts",
     "postinstall": "yarn husky install",
+    "postpublish": "pinst --enable",
     "prebuild": "yarn clean",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "pinst --disable && yarn build",
     "test": "jest",
     "type-check": "tsc --noEmit"
   },
