@@ -2,10 +2,8 @@ const nock = require('nock')
 const request = require('../src/server')
 
 describe('request/server', () => {
-  it('should send a basic GET request', done => {
-    nock('http://test')
-      .get('/')
-      .reply(200, 'Hello, world!')
+  it('should send a basic GET request', (done) => {
+    nock('http://test').get('/').reply(200, 'Hello, world!')
 
     const next = jest.fn()
     const error = jest.fn()
@@ -22,18 +20,18 @@ describe('request/server', () => {
         expect(lastValue.bytesLoaded).toBe(13)
         expect(lastValue.bytesTotal).toBe(13)
         done()
-      }
+      },
     })
   })
 
-  it('should send a POST request with a body', done => {
+  it('should send a POST request with a body', (done) => {
     nock('http://test')
       .post('/identity')
-      .reply(function(_, requestBody) {
+      .reply(function (_, requestBody) {
         return [
           201,
           requestBody,
-          {'content-type': this.req.headers['content-type'] || 'text/plain'} // optional headers
+          {'content-type': this.req.headers['content-type'] || 'text/plain'}, // optional headers
         ]
       })
 
@@ -42,8 +40,8 @@ describe('request/server', () => {
     const postOpts = {
       body: JSON.stringify({id: 'foo'}),
       headers: {
-        'content-type': 'application/json'
-      }
+        'content-type': 'application/json',
+      },
     }
 
     request.post('http://test/identity', postOpts).subscribe({
@@ -57,7 +55,7 @@ describe('request/server', () => {
         expect(lastValue.headers).toEqual(postOpts.headers)
         expect(lastValue.text).toBe(postOpts.body)
         done()
-      }
+      },
     })
   })
 })

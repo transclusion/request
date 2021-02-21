@@ -1,6 +1,6 @@
 import {ResponseHeaders} from '../types'
 
-export function getHeadersFromXHR(xhr: XMLHttpRequest) {
+export function getHeadersFromXHR(xhr: XMLHttpRequest): ResponseHeaders {
   const headers: ResponseHeaders = {}
 
   return xhr

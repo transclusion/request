@@ -49,6 +49,14 @@ export type Response =
 
 export interface ResponseObserver {
   next: (res: Response) => void
-  error?: (err: any) => void
+  error?: (err: Error) => void
   complete?: () => void
+}
+
+export interface RequestObservable {
+  subscribe: (
+    observer: ResponseObserver
+  ) => {
+    unsubscribe: () => void
+  }
 }

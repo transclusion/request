@@ -7,20 +7,17 @@ describe('request/browser', () => {
 
     xhrMock.get('/', {
       headers: {'Content-Length': '13'},
-      body: 'Hello, world!'
+      body: 'Hello, world!',
     })
 
     xhrMock.post('/identity', (req, res) =>
-      res
-        .status(201)
-        .header('content-type', req.header('content-type'))
-        .body(req.body())
+      res.status(201).header('content-type', req.header('content-type')).body(req.body())
     )
   })
 
   afterEach(() => xhrMock.teardown())
 
-  it('should send a basic GET request', done => {
+  it('should send a basic GET request', (done) => {
     const next = jest.fn()
     const error = jest.fn()
 
@@ -36,18 +33,18 @@ describe('request/browser', () => {
         expect(lastValue.bytesLoaded).toBe(13)
         expect(lastValue.bytesTotal).toBe(13)
         done()
-      }
+      },
     })
   })
 
-  it('should send a POST request with a body', done => {
+  it('should send a POST request with a body', (done) => {
     const next = jest.fn()
     const error = jest.fn()
     const postOpts = {
       body: JSON.stringify({id: 'foo'}),
       headers: {
-        'content-type': 'application/json'
-      }
+        'content-type': 'application/json',
+      },
     }
 
     request.post('/identity', postOpts).subscribe({
@@ -61,7 +58,7 @@ describe('request/browser', () => {
         expect(lastValue.headers).toEqual(postOpts.headers)
         expect(lastValue.text).toBe(postOpts.body)
         done()
-      }
+      },
     })
   })
 })

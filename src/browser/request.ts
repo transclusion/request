@@ -1,7 +1,7 @@
-import {RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
+import {RequestObservable, RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
 import {getHeadersFromXHR} from './helpers'
 
-export function request(method: string, url: string, opts: RequestOpts = {}) {
+export function request(method: string, url: string, opts: RequestOpts = {}): RequestObservable {
   const subscribe = (observer: ResponseObserver) => {
     const xhr: XMLHttpRequest = new XMLHttpRequest()
 
@@ -33,13 +33,14 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
     }
 
     xhr.onerror = () => {
-      const err: any = new Error('HTTP request failed')
+      const err = new Error('HTTP request failed')
 
-      err.response = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(err as any).response = {
         headers,
         readyState: 4,
         status: xhr.status,
-        text: xhr.responseText
+        text: xhr.responseText,
       }
 
       handleError(err)
@@ -55,7 +56,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
           bytesTotal,
           headers,
           readyState: 3,
-          status
+          status,
         })
       }
     }
@@ -85,7 +86,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
         handleNext({
           readyState,
           headers,
-          status
+          status,
         })
       } else if (readyState === 3) {
         handleNext({
@@ -93,7 +94,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
           headers,
           status,
           bytesTotal,
-          bytesLoaded
+          bytesLoaded,
         })
       } else if (readyState === 4) {
         handleNext({
@@ -102,7 +103,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
           status,
           text: xhr.responseText,
           bytesTotal,
-          bytesLoaded
+          bytesLoaded,
         })
 
         handleComplete()
@@ -118,7 +119,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
         if (xhr) {
           xhr.abort()
         }
-      }
+      },
     }
   }
 

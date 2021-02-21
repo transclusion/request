@@ -1,7 +1,8 @@
 import * as http from 'http'
 import * as https from 'https'
-import {parse as parseUrl} from 'url'
-import {RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
+import {URL} from 'url'
+import {ClientRequest} from 'node:http'
+import {RequestObservable, RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
 import {parseHeaders} from './helpers'
 
 interface INodeReqOpts {
@@ -12,21 +13,25 @@ interface INodeReqOpts {
   headers?: ResponseHeaders
 }
 
-export function request(method: string, url: string, opts: RequestOpts = {}) {
+export function request(
+  method: string,
+  urlString: string,
+  opts: RequestOpts = {}
+): RequestObservable {
   const subscribe = (observer: ResponseObserver) => {
-    const urlInfo = parseUrl(url)
-    const protocol = urlInfo.protocol
-    const transport: any = protocol === 'https:' ? https : http
+    const url = new URL(urlString, 'http://0.0.0.0/')
+    const protocol = url.protocol
+    const transport = protocol === 'https:' ? https : http
     const reqOpts: INodeReqOpts = {
       method,
-      host: urlInfo.hostname,
-      port: urlInfo.port,
-      path: urlInfo.path
+      host: url.hostname,
+      port: url.port,
+      path: url.pathname,
     }
 
-    let req: any = null
+    let req: ClientRequest | null = null
     let headers: ResponseHeaders
-    let text: string = ''
+    let text = ''
     let isComplete = false
 
     // Set `.headers` on request options
@@ -55,7 +60,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
       }
     }
 
-    req = transport.request(reqOpts, (res: any) => {
+    req = transport.request(reqOpts, (res) => {
       res.on('data', (buf: Buffer) => {
         headers = headers || parseHeaders(res.headers)
 
@@ -66,7 +71,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
           headers,
           bytesLoaded: text.length,
           bytesTotal: Number(headers['content-length'] || -1),
-          status: res.statusCode || 0
+          status: res.statusCode || 0,
         })
       })
 
@@ -85,7 +90,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
           status: res.statusCode || 0,
           text,
           bytesTotal: Buffer.byteLength(text, 'utf8'),
-          bytesLoaded: Buffer.byteLength(text, 'utf8')
+          bytesLoaded: Buffer.byteLength(text, 'utf8'),
         })
 
         handleComplete()
@@ -96,17 +101,18 @@ export function request(method: string, url: string, opts: RequestOpts = {}) {
     if (opts.body) {
       req.write(opts.body)
     }
+
     req.end()
 
     return {
       unsubscribe() {
         handleComplete()
-        req.abort()
-      }
+        if (req) req.destroy()
+      },
     }
   }
 
   return {
-    subscribe
+    subscribe,
   }
 }
