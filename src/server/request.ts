@@ -6,9 +6,9 @@ import {parseHeaders} from './helpers'
 
 interface INodeReqOpts {
   method: string
-  host?: string
-  port?: string
-  path?: string
+  host: string | null
+  port: string | null
+  path: string | null
   headers?: ResponseHeaders
 }
 
