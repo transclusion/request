@@ -1,6 +1,6 @@
 {
   "name": "@transclusion/request",
-  "version": "1.0.1",
+  "version": "0.0.0-development",
   "description": "For making observable requests in the browser and in Node.js.",
   "author": "Marius Lundgård <studio@mariuslundgard.com>",
   "license": "MIT",
@@ -44,6 +44,8 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
+    "semantic-release": "^17.3.9",
+    "semantic-release-cli": "^5.4.3",
     "ts-jest": "^26.5.1",
     "typescript": "^4.1.5",
     "xhr-mock": "^2.5.1"
@@ -55,5 +57,25 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "release": {
+    "branches": [
+      "+([0-9])?(.{+([0-9]),x}).x",
+      "main",
+      "next",
+      "next-major",
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/transclusion/request.git"
   }
 }
