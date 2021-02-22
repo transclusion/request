@@ -3,9 +3,9 @@ import * as https from 'https'
 import {URL} from 'url'
 import {ClientRequest} from 'node:http'
 import {RequestObservable, RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
-import {parseHeaders} from './helpers'
+import {_parseHeaders} from './helpers'
 
-interface INodeReqOpts {
+interface NodeReqOpts {
   method: string
   host: string | null
   port: string | null
@@ -13,6 +13,9 @@ interface INodeReqOpts {
   headers?: ResponseHeaders
 }
 
+/**
+ * @public
+ */
 export function request(
   method: string,
   urlString: string,
@@ -22,7 +25,7 @@ export function request(
     const url = new URL(urlString, 'http://0.0.0.0/')
     const protocol = url.protocol
     const transport = protocol === 'https:' ? https : http
-    const reqOpts: INodeReqOpts = {
+    const reqOpts: NodeReqOpts = {
       method,
       host: url.hostname,
       port: url.port,
@@ -62,7 +65,7 @@ export function request(
 
     req = transport.request(reqOpts, (res) => {
       res.on('data', (buf: Buffer) => {
-        headers = headers || parseHeaders(res.headers)
+        headers = headers || _parseHeaders(res.headers)
 
         text += buf.toString()
 
@@ -86,7 +89,7 @@ export function request(
       res.on('end', () => {
         handleNext({
           readyState: 4,
-          headers: headers || parseHeaders(res.headers),
+          headers: headers || _parseHeaders(res.headers),
           status: res.statusCode || 0,
           text,
           bytesTotal: Buffer.byteLength(text, 'utf8'),

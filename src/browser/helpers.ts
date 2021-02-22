@@ -1,6 +1,9 @@
 import {ResponseHeaders} from '../types'
 
-export function getHeadersFromXHR(xhr: XMLHttpRequest): ResponseHeaders {
+/**
+ * @internal
+ */
+export function _parseHeaders(xhr: XMLHttpRequest): ResponseHeaders {
   return xhr
     .getAllResponseHeaders()
     .trim()

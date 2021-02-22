@@ -1,6 +1,9 @@
 import {RequestObservable, RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
-import {getHeadersFromXHR} from './helpers'
+import {_parseHeaders} from './helpers'
 
+/**
+ * @public
+ */
 export function request(method: string, url: string, opts: RequestOpts = {}): RequestObservable {
   const subscribe = (observer: ResponseObserver) => {
     const xhr: XMLHttpRequest = new XMLHttpRequest()
@@ -81,7 +84,7 @@ export function request(method: string, url: string, opts: RequestOpts = {}): Re
         status = xhr.status
 
         // Get response headers from XHR
-        headers = getHeadersFromXHR(xhr)
+        headers = _parseHeaders(xhr)
 
         handleNext({
           readyState,

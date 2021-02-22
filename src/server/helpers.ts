@@ -1,7 +1,10 @@
 import {IncomingHttpHeaders} from 'node:http'
 import {ResponseHeaders} from '../types'
 
-export function parseHeaders(rawHeaders: IncomingHttpHeaders): ResponseHeaders {
+/**
+ * @internal
+ */
+export function _parseHeaders(rawHeaders: IncomingHttpHeaders): ResponseHeaders {
   return Object.keys(rawHeaders).reduce((headers, key) => {
     const lowerCaseKey = key.toLowerCase()
     const val = rawHeaders[key]
