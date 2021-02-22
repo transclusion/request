@@ -1,4 +1,4 @@
-import {IncomingHttpHeaders} from 'node:http'
+import {IncomingHttpHeaders} from 'http'
 import {ResponseHeaders} from '../types'
 
 /**
