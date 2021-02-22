@@ -1,9 +1,4 @@
 {
   "extends": "./tsconfig.settings.json",
-  "compilerOptions": {
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "types": ["node"]
-  },
   "files": ["src/browser/index.ts", "src/server/index.ts"]
 }

@@ -2,10 +2,12 @@
   "extends": "./tsconfig.settings.json",
   "compilerOptions": {
     "moduleResolution": "node",
-    "module": "commonjs",
     "target": "es5",
     "declaration": true,
-    "outDir": "./dist/cjs"
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "types": ["node"]
   },
   "files": ["./src/browser/index.ts", "./src/server/index.ts"]
 }
