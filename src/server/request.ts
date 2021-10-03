@@ -20,7 +20,7 @@ export function request(
       method,
       host: url.hostname,
       port: url.port,
-      path: url.pathname,
+      path: url.pathname + url.search,
       key: opts.key,
       cert: opts.cert,
       ca: opts.ca,
