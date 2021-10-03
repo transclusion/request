@@ -11,6 +11,10 @@ export interface ResponseHeaders {
 export interface RequestOpts {
   headers?: ResponseHeaders
   body?: string
+  ca?: string
+  cert?: string
+  key?: string
+  rejectUnauthorized?: boolean
 }
 
 /**

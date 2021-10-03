@@ -4,14 +4,6 @@ import {URL} from 'url'
 import {RequestObservable, RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
 import {_parseHeaders} from './helpers'
 
-interface NodeReqOpts {
-  method: string
-  host: string | null
-  port: string | null
-  path: string | null
-  headers?: ResponseHeaders
-}
-
 /**
  * @public
  */
@@ -21,14 +13,18 @@ export function request(
   opts: RequestOpts = {}
 ): RequestObservable {
   const subscribe = (observer: ResponseObserver) => {
-    const url = new URL(urlString, 'http://0.0.0.0/')
+    const url = new URL(urlString)
     const protocol = url.protocol
-    const transport = protocol === 'https:' ? https : http
-    const reqOpts: NodeReqOpts = {
+    const transport = {request: protocol === 'https:' ? https.request : http.request}
+    const reqOpts: http.RequestOptions | https.RequestOptions = {
       method,
       host: url.hostname,
       port: url.port,
       path: url.pathname,
+      key: opts.key,
+      cert: opts.cert,
+      ca: opts.ca,
+      rejectUnauthorized: opts.rejectUnauthorized,
     }
 
     let req: http.ClientRequest | null = null
@@ -62,7 +58,7 @@ export function request(
       }
     }
 
-    req = transport.request(reqOpts, (res) => {
+    req = transport.request(url, reqOpts, (res) => {
       res.on('data', (buf: Buffer) => {
         headers = headers || _parseHeaders(res.headers)
 
@@ -110,6 +106,7 @@ export function request(
       unsubscribe() {
         handleComplete()
         if (req) req.destroy()
+        req = null
       },
     }
   }
