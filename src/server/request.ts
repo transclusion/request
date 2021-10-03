@@ -1,7 +1,6 @@
 import * as http from 'http'
 import * as https from 'https'
 import {URL} from 'url'
-import {ClientRequest} from 'node:http'
 import {RequestObservable, RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
 import {_parseHeaders} from './helpers'
 
@@ -32,7 +31,7 @@ export function request(
       path: url.pathname,
     }
 
-    let req: ClientRequest | null = null
+    let req: http.ClientRequest | null = null
     let headers: ResponseHeaders
     let text = ''
     let isComplete = false

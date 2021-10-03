@@ -87,9 +87,7 @@ export interface ResponseObserver {
  * @public
  */
 export interface RequestObservable {
-  subscribe: (
-    observer: ResponseObserver
-  ) => {
+  subscribe: (observer: ResponseObserver) => {
     unsubscribe: () => void
   }
 }

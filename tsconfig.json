@@ -1,4 +1,7 @@
 {
-  "extends": "./tsconfig.settings.json",
-  "files": ["src/browser/index.ts", "src/server/index.ts"]
+  "extends": "./tsconfig.settings",
+  "include": ["./scripts", "./src"],
+  "compilerOptions": {
+    "outDir": "./lib/dts"
+  }
 }

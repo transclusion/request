@@ -4,24 +4,24 @@
   "description": "For making observable requests in the browser and in Node.js.",
   "author": "Marius Lundgård <studio@mariuslundgard.com>",
   "license": "MIT",
-  "main": "./dist/cjs/server/index.js",
-  "module": "./dist/es/server/index.js",
+  "main": "./lib/cjs/server/index.js",
+  "module": "./lib/esm/server/index.js",
   "browser": {
-    "./dist/cjs/server/index.js": "./dist/cjs/browser/index.js",
-    "./dist/es/server/index.js": "./dist/es/browser/index.js"
+    "./lib/cjs/server/index.js": "./lib/cjs/browser/index.js",
+    "./lib/esm/server/index.js": "./lib/esm/browser/index.js"
   },
   "files": [
-    "/dist"
+    "/lib"
   ],
   "scripts": {
     "build": "run-p build:*",
-    "build:cjs": "tsc --module commonjs --outDir ./dist/cjs -p tsconfig.build.json",
-    "build:es": "tsc --module es6 --outDir ./dist/es -p tsconfig.build.json",
-    "clean": "rimraf dist",
+    "build:cjs": "tsc --module commonjs --outDir ./lib/cjs -p tsconfig.lib.json",
+    "build:es": "tsc --module es6 --outDir ./lib/esm -p tsconfig.lib.json",
+    "clean": "rimraf lib",
     "lint": "eslint . --ext .js,.ts",
-    "postinstall": "yarn husky install",
     "postpublish": "pinst --enable",
     "prebuild": "yarn clean",
+    "prepare": "husky install",
     "prepublishOnly": "pinst --disable && yarn build",
     "test": "jest",
     "type-check": "tsc --noEmit"
@@ -32,10 +32,10 @@
     "@semantic-release/git": "^10.0.0",
     "@semantic-release/npm": "^8.0.0",
     "@semantic-release/release-notes-generator": "^10.0.2",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.10.2",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
-    "babel-eslint": "^10.1.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "^7.32.0",

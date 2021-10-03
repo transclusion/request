@@ -1,27 +1,14 @@
-const xhrMock = require('xhr-mock').default
-const request = require('../src/browser')
+import nock from 'nock'
+import {get, post} from '../src/server'
 
-describe('request/browser', () => {
-  beforeEach(() => {
-    xhrMock.setup()
-
-    xhrMock.get('/', {
-      headers: {'Content-Length': '13'},
-      body: 'Hello, world!',
-    })
-
-    xhrMock.post('/identity', (req, res) =>
-      res.status(201).header('content-type', req.header('content-type')).body(req.body())
-    )
-  })
-
-  afterEach(() => xhrMock.teardown())
-
+describe('request/server', () => {
   it('should send a basic GET request', (done) => {
+    nock('http://test').get('/').reply(200, 'Hello, world!')
+
     const next = jest.fn()
     const error = jest.fn()
 
-    request.get('/').subscribe({
+    get('http://test/').subscribe({
       next,
       error,
       complete() {
@@ -38,6 +25,16 @@ describe('request/browser', () => {
   })
 
   it('should send a POST request with a body', (done) => {
+    nock('http://test')
+      .post('/identity')
+      .reply(function (_, requestBody) {
+        return [
+          201,
+          requestBody,
+          {'content-type': this.req.headers['content-type'] || 'text/plain'}, // optional headers
+        ]
+      })
+
     const next = jest.fn()
     const error = jest.fn()
     const postOpts = {
@@ -47,7 +44,7 @@ describe('request/browser', () => {
       },
     }
 
-    request.post('/identity', postOpts).subscribe({
+    post('http://test/identity', postOpts).subscribe({
       next,
       error,
       complete() {

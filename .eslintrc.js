@@ -1,16 +1,29 @@
 'use strict'
 
-const common = {
+module.exports = {
   env: {
     browser: true,
     es6: true,
     node: true,
     jest: true,
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
-  parser: 'babel-eslint',
-  plugins: ['import', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  plugins: ['import', '@typescript-eslint', 'prettier'],
   rules: {
+    '@typescript-eslint/explicit-module-boundary-types': 'error',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/member-delimiter-style': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
     'import/order': [
       'error',
       {
@@ -20,6 +33,8 @@ const common = {
         },
       },
     ],
+    'no-console': 'error',
+    'no-warning-comments': ['warn', {location: 'start', terms: ['todo', '@todo', 'fixme']}],
     'padding-line-between-statements': [
       'warn',
       {blankLine: 'always', prev: '*', next: 'block'},
@@ -32,33 +47,4 @@ const common = {
       {blankLine: 'always', prev: '*', next: 'return'},
     ],
   },
-}
-
-module.exports = {
-  ...common,
-  overrides: [
-    {
-      ...common,
-      files: ['**/*.ts', '**/*.tsx'],
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-        ecmaVersion: 2018,
-        sourceType: 'module',
-      },
-      plugins: ['@typescript-eslint', 'prettier'],
-      extends: [
-        'eslint:recommended',
-        'plugin:prettier/recommended',
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
-      ],
-      rules: {
-        ...common.rules,
-        '@typescript-eslint/interface-name-prefix': 0,
-      },
-    },
-  ],
 }
