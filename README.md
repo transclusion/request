@@ -1,6 +1,6 @@
 # @transclusion/request
 
-For making observable requests in the browser and in Node.js.
+A minimal xhr-based library for making _observable_ requests in the browser and in Node.js.
 
 ```sh
 # Install with npm
@@ -25,7 +25,7 @@ const req = get('https://www.google.com')
 const subscription = req.subscribe({
   next(res) {
     if (res.readyState === 3) {
-      console.log(`Loaded: ${res.bytesLoaded / res.bytesTotal * 100}%`)
+      console.log(`Loaded: ${(res.bytesLoaded / res.bytesTotal) * 100}%`)
     }
 
     if (res.readyState === 4) {
@@ -37,7 +37,7 @@ const subscription = req.subscribe({
   },
   complete() {
     console.log('DONE')
-  }
+  },
 })
 
 // To abort the request at any time, simply unsubscribe:
