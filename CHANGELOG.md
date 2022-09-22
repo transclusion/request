@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/transclusion/request/compare/v1.1.2...v1.1.3) (2022-09-22)
+
+
+### Bug Fixes
+
+* update `@sanity/pkg-utils` ([b13cfed](https://github.com/transclusion/request/commit/b13cfed8148cc5c18d30abe0ce70957ed9dbe4b9))
+
 ## [1.1.2](https://github.com/transclusion/request/compare/v1.1.1...v1.1.2) (2022-09-22)
 
 
