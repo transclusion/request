@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/transclusion/request/compare/v1.1.1...v1.1.2) (2022-09-22)
+
+
+### Bug Fixes
+
+* improve types and TSDoc ([66671d5](https://github.com/transclusion/request/commit/66671d5a26d86a452102bc42851da98ba53fb30e))
+
 ## [1.1.1](https://github.com/transclusion/request/compare/v1.1.0...v1.1.1) (2021-10-03)
 
 
