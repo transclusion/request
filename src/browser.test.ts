@@ -21,28 +21,28 @@ describe('request/browser', () => {
   afterEach(() => xhrMock.teardown())
 
   it('should send a basic GET request', (done) => {
-    const next = jest.fn()
-    const error = jest.fn()
-
-    get('/').subscribe({
-      next,
-      error,
+    const observer = {
+      next: jest.fn(),
+      error: jest.fn(),
       complete() {
-        const callsLen = next.mock.calls.length
-        const lastValue = next.mock.calls[callsLen - 1][0]
+        expect(observer.error.mock.calls).toHaveLength(0)
+
+        const callsLen = observer.next.mock.calls.length
+        const lastValue = observer.next.mock.calls[callsLen - 1][0]
 
         expect(lastValue.readyState).toBe(4)
         expect(lastValue.text).toBe('Hello, world!')
         expect(lastValue.bytesLoaded).toBe(13)
         expect(lastValue.bytesTotal).toBe(13)
+
         done()
       },
-    })
+    }
+
+    get('/').subscribe(observer)
   })
 
   it('should send a POST request with a body', (done) => {
-    const next = jest.fn()
-    const error = jest.fn()
     const postOpts = {
       body: JSON.stringify({id: 'foo'}),
       headers: {
@@ -50,18 +50,23 @@ describe('request/browser', () => {
       },
     }
 
-    post('/identity', postOpts).subscribe({
-      next,
-      error,
+    const observer = {
+      next: jest.fn(),
+      error: jest.fn(),
       complete() {
-        const callsLen = next.mock.calls.length
-        const lastValue = next.mock.calls[callsLen - 1][0]
+        expect(observer.error.mock.calls).toHaveLength(0)
+
+        const callsLen = observer.next.mock.calls.length
+        const lastValue = observer.next.mock.calls[callsLen - 1][0]
 
         expect(lastValue.readyState).toBe(4)
         expect(lastValue.headers).toEqual(postOpts.headers)
         expect(lastValue.text).toBe(postOpts.body)
+
         done()
       },
-    })
+    }
+
+    post('/identity', postOpts).subscribe(observer)
   })
 })
