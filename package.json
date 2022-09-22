@@ -22,8 +22,8 @@
       "types": "./dist/dts/types/src/server/index.d.ts",
       "browser": {
         "source": "./src/browser/index.ts",
-        "require": "./dist/index.browser.cjs",
-        "import": "./dist/index.browser.js"
+        "import": "./dist/index.browser.js",
+        "require": "./dist/index.browser.cjs"
       },
       "source": "./src/server/index.ts",
       "require": "./dist/index.cjs",
