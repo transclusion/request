@@ -21,9 +21,9 @@
     ".": {
       "types": "./dist/dts/types/src/server/index.d.ts",
       "browser": {
+        "source": "./src/browser/index.ts",
         "require": "./dist/index.browser.cjs",
-        "import": "./dist/index.browser.js",
-        "default": "./dist/index.browser.js"
+        "import": "./dist/index.browser.js"
       },
       "source": "./src/server/index.ts",
       "require": "./dist/index.cjs",
@@ -43,7 +43,7 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@sanity/pkg-utils": "^1.7.3",
+    "@sanity/pkg-utils": "^1.8.0",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/git": "^10.0.1",
