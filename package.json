@@ -1,23 +1,39 @@
 {
+  "type": "module",
   "name": "@transclusion/request",
   "version": "1.1.1",
   "description": "For making observable requests in the browser and in Node.js.",
   "author": "Marius Lundgård <studio@mariuslundgard.com>",
   "license": "MIT",
-  "main": "./lib/cjs/server/index.js",
-  "module": "./lib/esm/server/index.js",
-  "browser": {
-    "./lib/cjs/server/index.js": "./lib/cjs/browser/index.js",
-    "./lib/esm/server/index.js": "./lib/esm/browser/index.js"
-  },
   "files": [
-    "/lib"
+    "dist",
+    "src"
   ],
+  "types": "./dist/dts/types/src/server/index.d.ts",
+  "source": "./src/server/index.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "browser": {
+    "./dist/index.cjs": "./dist/index.browser.cjs",
+    "./dist/index.js": "./dist/index.browser.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/dts/types/src/server/index.d.ts",
+      "browser": {
+        "require": "./dist/index.browser.cjs",
+        "import": "./dist/index.browser.js",
+        "default": "./dist/index.browser.js"
+      },
+      "source": "./src/server/index.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
-    "build": "run-p build:*",
-    "build:cjs": "tsc --module commonjs --outDir ./lib/cjs -p tsconfig.lib.json",
-    "build:es": "tsc --module es6 --outDir ./lib/esm -p tsconfig.lib.json",
-    "clean": "rimraf lib",
+    "build": "pkg-utils build --tsconfig tsconfig.dist.json",
+    "clean": "rimraf dist",
     "lint": "eslint . --ext .js,.ts",
     "postpublish": "pinst --enable",
     "prebuild": "yarn clean",
@@ -27,6 +43,7 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
+    "@sanity/pkg-utils": "^1.7.3",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/git": "^10.0.1",
