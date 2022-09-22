@@ -1,53 +1,41 @@
-/**
- * @public
- */
+/** @public */
 export interface ResponseHeaders {
   [key: string]: string
 }
 
-/**
- * @public
- */
+/** @public */
 export interface RequestOpts {
   headers?: ResponseHeaders
   body?: string
   ca?: string
   cert?: string
   key?: string
+  password?: string
   rejectUnauthorized?: boolean
+  username?: string
 }
 
-/**
- * @public
- */
+/** @public */
 export type ResponseStatusCode = number | null
 
-/**
- * @public
- */
+/** @public */
 export interface ResponseUnset {
   readyState: 0
 }
 
-/**
- * @public
- */
+/** @public */
 export interface ResponseOpened {
   readyState: 1
 }
 
-/**
- * @public
- */
+/** @public */
 export interface ResponseHeadersReceived {
   readyState: 2
   headers: ResponseHeaders
   status: ResponseStatusCode
 }
 
-/**
- * @public
- */
+/** @public */
 export interface ResponseLoading {
   readyState: 3
   headers: ResponseHeaders
@@ -56,9 +44,7 @@ export interface ResponseLoading {
   bytesTotal: number
 }
 
-/**
- * @public
- */
+/** @public */
 export interface ResponseDone {
   readyState: 4
   headers: ResponseHeaders
@@ -68,9 +54,7 @@ export interface ResponseDone {
   bytesTotal: number
 }
 
-/**
- * @public
- */
+/** @public */
 export type Response =
   | ResponseUnset
   | ResponseOpened
@@ -78,18 +62,14 @@ export type Response =
   | ResponseLoading
   | ResponseDone
 
-/**
- * @public
- */
+/** @public */
 export interface ResponseObserver {
   next: (res: Response) => void
   error?: (err: Error) => void
   complete?: () => void
 }
 
-/**
- * @public
- */
+/** @public */
 export interface RequestObservable {
   subscribe: (observer: ResponseObserver) => {
     unsubscribe: () => void

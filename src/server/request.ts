@@ -1,12 +1,10 @@
-import * as http from 'http'
-import * as https from 'https'
+import http from 'http'
+import https from 'https'
 import {URL} from 'url'
 import {RequestObservable, RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
 import {_parseHeaders} from './helpers'
 
-/**
- * @public
- */
+/** @public */
 export function request(
   method: string,
   urlString: string,
@@ -16,6 +14,7 @@ export function request(
     const url = new URL(urlString)
     const protocol = url.protocol
     const transport = {request: protocol === 'https:' ? https.request : http.request}
+
     const reqOpts: http.RequestOptions | https.RequestOptions = {
       method,
       host: url.hostname,

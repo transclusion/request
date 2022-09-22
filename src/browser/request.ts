@@ -1,60 +1,59 @@
+import {RequestError} from '../RequestError'
 import {RequestObservable, RequestOpts, Response, ResponseHeaders, ResponseObserver} from '../types'
 import {_parseHeaders} from './helpers'
 
-/**
- * @public
- */
+/** @public */
 export function request(method: string, url: string, opts: RequestOpts = {}): RequestObservable {
-  const subscribe = (observer: ResponseObserver) => {
-    const xhr: XMLHttpRequest = new XMLHttpRequest()
+  function subscribe(observer: ResponseObserver) {
+    const _req: XMLHttpRequest = new XMLHttpRequest()
+
+    let _isCompleted = false
 
     let status = 200
     let headers: ResponseHeaders = {}
     let bytesTotal = -1
     let bytesLoaded = -1
-    let isCompleted = false
 
-    function handleNext(res: Response) {
-      if (!isCompleted) {
+    function _handleNext(res: Response) {
+      if (!_isCompleted) {
         observer.next(res)
       }
     }
 
-    function handleComplete() {
-      if (!isCompleted && observer.complete) {
-        observer.complete()
-        isCompleted = true
+    function _handleComplete() {
+      if (!_isCompleted) {
+        observer.complete?.()
+        _isCompleted = true
       }
     }
 
-    function handleError(err: Error) {
-      if (!isCompleted && observer.error) {
-        observer.error(err)
+    function _handleError(err: Error) {
+      if (!_isCompleted) {
+        observer.error?.(err)
       }
 
-      handleComplete()
+      _handleComplete()
     }
 
-    xhr.onerror = () => {
-      const err = new Error('HTTP request failed')
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(err as any).response = {
-        headers,
-        readyState: 4,
-        status: xhr.status,
-        text: xhr.responseText,
-      }
-
-      handleError(err)
+    _req.onerror = () => {
+      _handleError(
+        new RequestError('HTTP request failed', {
+          bytesLoaded,
+          bytesTotal,
+          headers,
+          readyState: 4,
+          status: _req.status,
+          text: _req.responseText,
+        })
+      )
     }
 
-    xhr.onprogress = (evt: ProgressEvent) => {
+    _req.onprogress = (evt: ProgressEvent) => {
       if (evt.lengthComputable) {
         bytesTotal = evt.total
         bytesLoaded = evt.loaded
 
-        handleNext({
+        _handleNext({
           bytesLoaded,
           bytesTotal,
           headers,
@@ -64,66 +63,93 @@ export function request(method: string, url: string, opts: RequestOpts = {}): Re
       }
     }
 
-    xhr.onreadystatechange = () => {
-      const {readyState} = xhr
+    _req.onreadystatechange = () => {
+      const {readyState} = _req
 
       if (readyState === 0) {
-        handleNext({readyState})
-      } else if (readyState === 1) {
-        handleNext({readyState})
+        _handleNext({readyState})
+      }
 
-        // Set XHR request headers
-        if (opts.headers) {
-          for (const [key, value] of Object.entries(opts.headers)) {
-            xhr.setRequestHeader(key, value)
+      if (readyState === 1) {
+        _handleNext({readyState})
+
+        try {
+          // Set XHR request headers
+          if (opts.headers) {
+            for (const [key, value] of Object.entries(opts.headers)) {
+              _req.setRequestHeader(key, value)
+            }
+          }
+
+          _req.send(opts.body)
+        } catch (err) {
+          if (err instanceof Error) {
+            _handleError(err)
+          } else {
+            _handleError(new Error('unknown error'))
           }
         }
+      }
 
-        xhr.send(opts.body)
-      } else if (readyState === 2) {
-        status = xhr.status
+      if (readyState === 2) {
+        status = _req.status
 
         // Get response headers from XHR
-        headers = _parseHeaders(xhr)
+        headers = _parseHeaders(_req)
 
-        handleNext({
+        _handleNext({
           readyState,
           headers,
           status,
         })
-      } else if (readyState === 3) {
-        handleNext({
+      }
+
+      if (readyState === 3) {
+        _handleNext({
           readyState,
           headers,
           status,
           bytesTotal,
           bytesLoaded,
         })
-      } else if (readyState === 4) {
-        handleNext({
+      }
+
+      if (readyState === 4) {
+        _handleNext({
           readyState: 4,
           headers,
           status,
-          text: xhr.responseText,
+          text: _req.responseText,
           bytesTotal,
           bytesLoaded,
         })
 
-        handleComplete()
+        _handleComplete()
       }
     }
 
-    xhr.open(method, url, true)
-
-    return {
-      unsubscribe() {
-        handleComplete()
-
-        if (xhr) {
-          xhr.abort()
-        }
-      },
+    try {
+      _req.open(
+        method,
+        url,
+        true, // always perform async request
+        opts.username,
+        opts.password
+      )
+    } catch (err) {
+      if (err instanceof Error) {
+        _handleError(err)
+      } else {
+        _handleError(new Error('unknown error'))
+      }
     }
+
+    function unsubscribe() {
+      _handleComplete()
+      _req.abort()
+    }
+
+    return {unsubscribe}
   }
 
   return {subscribe}
