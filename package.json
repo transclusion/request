@@ -32,7 +32,7 @@
     }
   },
   "scripts": {
-    "build": "pkg-utils build --tsconfig tsconfig.dist.json",
+    "build": "pkg-utils build --tsconfig tsconfig.dist.json && pkg-utils --strict --tsconfig tsconfig.dist.json",
     "clean": "rimraf dist",
     "lint": "eslint .",
     "postpublish": "pinst --enable",
