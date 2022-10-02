@@ -9,7 +9,7 @@
     "dist",
     "src"
   ],
-  "types": "./dist/dts/types/src/server/index.d.ts",
+  "types": "./dist/index.d.ts",
   "source": "./src/server/index.ts",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -19,7 +19,7 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/dts/types/src/server/index.d.ts",
+      "types": "./dist/index.d.ts",
       "browser": {
         "source": "./src/browser/index.ts",
         "import": "./dist/index.browser.js",

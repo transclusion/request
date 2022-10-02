@@ -3,6 +3,8 @@
   "include": ["./scripts", "./src"],
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "./dist/dts"
+    "outDir": "./dist",
+
+    "noEmit": true
   }
 }
