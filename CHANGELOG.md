@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/transclusion/request/compare/v1.1.3...v1.1.4) (2022-10-02)
+
+
+### Bug Fixes
+
+* build server version for Node.js ([aaba3ca](https://github.com/transclusion/request/commit/aaba3cab9349434ca7fa6b6e5f2760e0e573a755))
+
 ## [1.1.3](https://github.com/transclusion/request/compare/v1.1.2...v1.1.3) (2022-09-22)
 
 
