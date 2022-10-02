@@ -2039,10 +2039,10 @@
     colors "~1.2.1"
     string-argv "~0.3.1"
 
-"@sanity/pkg-utils@^1.8.3":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@sanity/pkg-utils/-/pkg-utils-1.8.3.tgz#cf9762d78b1ef23565bdc81f97ddc1e446655d29"
-  integrity sha512-DA1XFx8bueZH39NFCN9YT7Ix0Ed8GvHg4BTs49G/F5cJ7/jbgPaNAScMCrOb5PaVqJwzKRignpTZ2mh+3PbeZA==
+"@sanity/pkg-utils@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@sanity/pkg-utils/-/pkg-utils-1.10.0.tgz#e386cf31b8aba77bf5e22591f2dffa38f3cc4b89"
+  integrity sha512-aEtM3AG/edAudaEKH3I3jnrKR/iQvu7yjSgGdJuux9VfsX5rm/Jr0apGAcwNt2TVnW7cb7MoRedfuKXxyPdA4A==
   dependencies:
     "@babel/core" "^7.19.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.18.9"
@@ -2339,10 +2339,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.24.tgz#c37ac69cb2948afb4cef95f424fa0037971a9a5c"
   integrity sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==
 
-"@types/node@^18.7.23":
-  version "18.7.23"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.23.tgz#75c580983846181ebe5f4abc40fe9dfb2d65665f"
-  integrity sha512-DWNcCHolDq0ZKGizjx2DZjR/PqsYwAcYUJmfMWqtVU2MBMG5Mo+xFZrhGId5r/O5HOuMPyQEcM6KUBp5lBZZBg==
+"@types/node@^18.8.0":
+  version "18.8.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.0.tgz#b8ee8d83a99470c0661bd899417fcd77060682fe"
+  integrity sha512-u+h43R6U8xXDt2vzUaVP3VwjjLyOJk6uEciZS8OSyziUQGOwmk+l+4drxcsDboHXwyTaqS1INebghmWMRxq3LA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
