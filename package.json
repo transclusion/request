@@ -34,7 +34,7 @@
   "scripts": {
     "build": "pkg-utils build --tsconfig tsconfig.dist.json",
     "clean": "rimraf dist",
-    "lint": "eslint . --ext .js,.ts",
+    "lint": "eslint .",
     "postpublish": "pinst --enable",
     "prebuild": "yarn clean",
     "prepare": "husky install",
